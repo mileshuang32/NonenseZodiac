@@ -27,38 +27,38 @@ for i in range(12):
     # Train the markov engine based on the training data and return a model
     text_model = markovify.Text(text)
     # Randomly select a horoscope from the list
-    random_horoscopes=random.choice(horoscopes)
+    random_horoscope=random.choice(horoscopes)
     # Construct the daily prediction based on the traning model with less or equal to 150 characters
     textOfTheDay=text_model.make_short_sentence(150)
     # Construct the tweet with the selected horoscope, the daily prediction and the current date
-    textOfTheDay=random_horoscopes+textOfTheDay+' ——'+today_formatted
+    textOfTheDay=random_horoscope+textOfTheDay+' ——'+today_formatted
     # Depending on the horoscope, upload a preselected image of the horoscope
-    if(random_choice=='ARIES ♈:'):
+    if(random_horoscope=='ARIES ♈:'):
         image = "Aries.jpg"
-    elif (random_choice=='TAURUS ♉:'):
+    elif (random_horoscope=='TAURUS ♉:'):
         image = "Taurus.jpg"
-    elif (random_choice=='GEMINI ♊:'):
+    elif (random_horoscope=='GEMINI ♊:'):
         image = "Gemini.jpg"
-    elif (random_choice=='LEO ♌:'):
+    elif (random_horoscope=='LEO ♌:'):
         image = "Leo.jpg"
-    elif (random_choice=='VIRGO ♍:'):
+    elif (random_horoscope=='VIRGO ♍:'):
         image = "Virgo.jpg"
-    elif (random_choice=='LIBRA ♎:'):
+    elif (random_horoscope=='LIBRA ♎:'):
         image = "Libra.jpg"
-    elif (random_choice=='SCORPIO ♏:'):
+    elif (random_horoscope=='SCORPIO ♏:'):
         image = "Scorpio.jpg"
-    elif (random_choice=='SAGITTARIUS ♐:'):
+    elif (random_horoscope=='SAGITTARIUS ♐:'):
        image = "Sagittarius.jpg"
-    elif (random_choice=='CAPRICORN ♑:'):
+    elif (random_horoscope=='CAPRICORN ♑:'):
         image = "Capricorn.jpg"
-    elif (random_choice=='AQUARIUS ♒:'):
+    elif (random_horoscope=='AQUARIUS ♒:'):
         image = "Aquarius.jpg"
-    elif (random_choice=='PISCES ♓:'):
+    elif (random_horoscope=='PISCES ♓:'):
         image = "Pisces.jpg"
-    elif (random_choice=='CANCER ♋:'):
+    elif (random_horoscope=='CANCER ♋:'):
         image = "Cancer.jpg"
     # Remove the selected horoscope so that each horoscope is only tweeted once
-    horoscopes.remove(random_horoscopes)
+    horoscopes.remove(random_horoscope)
     # Upload the text along with the corresponding image
     api.update_with_media(image,textOfTheDay)
     print(textOfTheDay)
