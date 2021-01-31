@@ -4,10 +4,13 @@ import markovify
 import random
 import os
 from datetime import date
+# Created a list of the 12 zodiac sighs with emojis.
 horoscopes =['ARIES ♈:','TAURUS ♉:','GEMINI ♊:','CANCER ♋:','LEO ♌:','VIRGO ♍:','LIBRA ♎:','SCORPIO ♏:','SAGITTARIUS ♐:','CAPRICORN ♑:','AQUARIUS ♒:','PISCES ♓:']
-with open("Horo.txt") as f:
+# Open the traning data file 
+with open("HoroscopeTraining.txt") as f:
     text = f.read()
 
+# Tweepy functions for accessing the twitter account and authorize usage
 CONSUMER_KEY = 'INSERT YOUR COMSUMER KEY HERE'
 CONSUMER_SECRET = 'INSERT YOUR SECRET HERE'
 ACCESS_KEY = 'INSERT YOUR ACCESS KEY HERE'
@@ -15,13 +18,21 @@ ACCESS_SECRET = 'INSERT YOUR ACCESS KEY HERE'
 auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 auth.set_access_token(ACCESS_KEY, ACCESS_SECRET) 
 api = tweepy.API(auth)
+# Get today's date
 today = date.today()
+# Change data format to Month-Day-Year
 today_formatted = today.strftime("%B %d, %Y")
+# Loop through the List and select all the zodiac signs
 for i in range(12):
+    # Train the markov engine based on the training data and return a model
     text_model = markovify.Text(text)
-    random_choice=random.choice(horoscopes)
+    # Randomly select a horoscope from the list
+    random_horoscopes=random.choice(horoscopes)
+    # Construct the daily prediction based on the traning model with less or equal to 150 characters
     textOfTheDay=text_model.make_short_sentence(150)
-    textOfTheDay=random_choice+textOfTheDay+' ——'+today_formatted
+    # Construct the tweet with the selected horoscope, the daily prediction and the current date
+    textOfTheDay=random_horoscopes+textOfTheDay+' ——'+today_formatted
+    # Depending on the horoscope, upload a preselected image of the horoscope
     if(random_choice=='ARIES ♈:'):
         image = "Aries.jpg"
     elif (random_choice=='TAURUS ♉:'):
@@ -46,9 +57,12 @@ for i in range(12):
         image = "Pisces.jpg"
     elif (random_choice=='CANCER ♋:'):
         image = "Cancer.jpg"
-    horoscopes.remove(random_choice)
+    # Remove the selected horoscope so that each horoscope is only tweeted once
+    horoscopes.remove(random_horoscopes)
+    # Upload the text along with the corresponding image
     api.update_with_media(image,textOfTheDay)
     print(textOfTheDay)
+    # Wait 15 second before posting the next tweet
     time.sleep(15)
 
 
